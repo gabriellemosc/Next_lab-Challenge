@@ -1,30 +1,13 @@
-const express = require('express')
+const express = require('express') // importa express
+const app = express() // cria app
+require('dotenv').config() // carrega .env
 
-const cors = require('cors')
+app.use(express.json()) // permite JSON no body
 
-require('dotenv').config()
+const photoRoutes = require('./src/routes/photoRoutes') // importa rotas
 
-const app = express()
+app.use('/photos', photoRoutes) // registra rota
 
-const PORT = process.env.PORT || 3001
-
-app.use(cors())
-
-app.use(express.json())
-
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'Server is running' }) // retorna status simples
-})
-
-// global middlewware
-app.use((err, req, res, next) => {
-  console.error(err) // loga erro no console
-
-  res.status(err.status || 500).json({
-    message: err.message || 'Internal Server Error'
-  })
-})
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`)
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000')
 })
