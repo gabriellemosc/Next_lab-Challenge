@@ -1,185 +1,175 @@
 import { useEffect, useRef, useState } from "react"
 import "./Upload.css"
+import frame from "../assets/images/frame.png" // importa moldura do figma
 
 function Upload() {
-  const videoRef = useRef(null)
-  const canvasRef = useRef(null)
-  const [count, setCount] = useState(3)
-  const [cameraReady, setCameraReady] = useState(false)
-  const [cameraError, setCameraError] = useState(false)
+
+  const videoRef = useRef(null) // referencia do video (camera)
+  const canvasRef = useRef(null) // referencia do canvas
+  const [count, setCount] = useState(3) // contador
+  const [photo, setPhoto] = useState(null) // foto capturada
+  const [stream, setStream] = useState(null) // stream da camera
 
   useEffect(() => {
-    startCamera()
-  }, [])
 
-  async function startCamera() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: "user",
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        } 
+    async function startCamera() {
+
+      const media = await navigator.mediaDevices.getUserMedia({
+        video: true
       })
 
-      videoRef.current.srcObject = stream
-      
-      videoRef.current.onloadedmetadata = () => {
-        setCameraReady(true)
-        startCountdown()
+      setStream(media) // salva stream
+
+      if (videoRef.current) {
+        videoRef.current.srcObject = media // conecta stream ao video
       }
 
-    } catch (error) {
-      console.error("Erro ao acessar câmera:", error)
-      setCameraError(true)
     }
-  }
 
-  function startCountdown() {
-    let counter = 3
+    startCamera()
 
-    const interval = setInterval(() => {
-      setCount(counter)
-      counter--
+  }, [])
 
-      if (counter < 0) {
-        clearInterval(interval)
-        takePhoto()
-      }
+  useEffect(() => {
+
+    if (photo) return // se já tirou foto não conta
+
+    if (count === 0) {
+      takePhoto() // quando contador chega a 0 tira foto
+      return
+    }
+
+    const timer = setTimeout(() => {
+      setCount(count - 1)
     }, 1000)
+
+    return () => clearTimeout(timer)
+
+  }, [count, photo])
+
+
+  function takePhoto() {
+
+    const video = videoRef.current
+    const canvas = canvasRef.current
+  if (video.readyState !== 4) {
+    console.log("video ainda não está pronto")
+    return
   }
 
-  async function takePhoto() {
-    const canvas = canvasRef.current
-    const video = videoRef.current
+    canvas.width = video.videoWidth // largura real da camera
+    canvas.height = video.videoHeight // altura real da camera
 
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
+    
 
     const ctx = canvas.getContext("2d")
-    ctx.drawImage(video, 0, 0)
 
-    canvas.toBlob(async (blob) => {
-      const formData = new FormData()
-      formData.append("image", blob, "photo.jpg")
+    ctx.drawImage(video, 0, 0) // desenha frame atual no canvas
 
-      const token = localStorage.getItem("token")
+    const imageData = canvas.toDataURL("image/png") // converte imagem para base64
 
-      console.log("Iniciando upload...")
+    setPhoto(imageData) // salva foto no estado
 
-      try {
-        const response = await fetch("http://localhost:3000/activation/upload", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-          body: formData
-        })
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop()) // desliga camera
+    }
 
-        const data = await response.json()
-        console.log("Resposta backend:", data)
-      } catch (error) {
-        console.error("Erro no upload:", error)
-      }
-    }, "image/jpeg")
   }
 
-  if (cameraError) {
-    return (
-      <div className="error-container">
-        <div className="error-card">
-          <div className="error-icon">
-            <span>❌</span>
-          </div>
-          <h2 className="error-title">Erro na Câmera</h2>
-          <p className="error-message">
-            Não foi possível acessar sua câmera. Verifique as permissões e tente novamente.
-          </p>
-          <button 
-            onClick={() => window.location.reload()}
-            className="error-button"
-          >
-            Tentar Novamente
-          </button>
-        </div>
-      </div>
-    )
+  function retryPhoto() {
+
+    setPhoto(null) // limpa foto
+    setCount(3) // reinicia contador
+    window.location.reload() // reinicia camera
+
+  }
+
+  async function sendPhoto() {
+
+    const blob = await fetch(photo).then(r => r.blob()) // converte base64 para blob
+
+    const formData = new FormData()
+
+    formData.append("image", blob, "photo.png") // adiciona imagem no form
+
+    const token = localStorage.getItem("token")
+
+    const response = await fetch("http://localhost:3000/activation/upload", {
+
+      method: "POST",
+
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+
+      body: formData
+
+    })
+
+    const data = await response.json()
+
+    console.log("Resposta backend:", data)
+
   }
 
   return (
-    <div className="upload-container">
-      <div className="upload-card">
-        <div className="upload-glow"></div>
-        
-        <div className="upload-content">
-          
-          <div className="upload-header">
-            <h1 className="upload-title">
-              📸 Captura de Foto
-            </h1>
-            <p className="upload-subtitle">
-              Prepare-se para a foto perfeita
-            </p>
-          </div>
 
-          <div className="camera-wrapper">
-            
-            {cameraReady && count > 0 && (
-              <div className="countdown-overlay">
-                <div className="countdown-container">
-                  <div className="countdown-ring"></div>
-                  <div className="countdown-number">
-                    <span>{count}</span>
-                  </div>
+    <div className="container">
+
+      {!photo && (
+        <>
+          <h1 className="countdown">{count}</h1>
+
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            className="camera"
+            onLoadedMetadata={() => {
+                console.log("camera pronta") // confirma que o video carregou
+              }}
+          />
+        </>
+      )}
+
+      {photo && (
+        <>
+           <div className="photoContainer">
+
+                <img
+                src={photo} // foto capturada da camera
+                alt="foto"
+                className="userPhoto"
+                />
+
+                <img
+                src={frame} // moldura png
+                alt="frame"
+                className="frameOverlay"
+                />
+
                 </div>
-              </div>
-            )}
 
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              className="upload-video"
-            />
-            
-            <div className="scanline-effect"></div>
-            
-            <div className="camera-corner corner-tl"></div>
-            <div className="camera-corner corner-tr"></div>
-            <div className="camera-corner corner-bl"></div>
-            <div className="camera-corner corner-br"></div>
+          <div className="buttons">
+
+            <button onClick={retryPhoto}>
+              Refazer
+            </button>
+
+            <button onClick={sendPhoto}>
+              Continuar
+            </button>
+
           </div>
+        </>
+      )}
 
-          <div className="status-bar">
-            <div className="status-indicator">
-              <div className={`status-dot ${cameraReady ? 'ready' : 'loading'}`}></div>
-              <span className="status-text">
-                {cameraReady ? '📷 Câmera pronta' : '⏳ Inicializando câmera...'}
-              </span>
-            </div>
-            
-            <div className="timer-badge">
-              <span>⏱️</span>
-              <span>Foto automática em 3s</span>
-            </div>
-          </div>
+      <canvas ref={canvasRef} style={{ display: "none" }} />
 
-          <div className="instructions">
-            <p>
-              <i>⚡</i>
-              A foto será tirada automaticamente após a contagem regressiva
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <canvas
-        ref={canvasRef}
-        className="upload-canvas"
-      />
     </div>
+
   )
+
 }
 
 export default Upload
-
