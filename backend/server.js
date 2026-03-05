@@ -1,22 +1,27 @@
 const express = require('express') // importa express
-const app = express() // cria app
-require('dotenv').config() // carrega .env
+const cors = require('cors') // importa middleware CORS
+require('dotenv').config() // carrega variáveis do .env
 
-app.use(express.json()) // permite JSON no body
+const app = express() // cria aplicação
 
-const photoRoutes = require('./src/routes/photoRoutes') // importa rotas
+// ---------- MIDDLEWARES GLOBAIS ----------
 
-app.use('/photos', photoRoutes) // registra rota
+app.use(cors()) // permite requisições vindas do frontend
+app.use(express.json()) // permite receber JSON no body
+
+// ---------- ROTAS ----------
+
+const photoRoutes = require('./src/routes/photoRoutes') // rotas de fotos
+app.use('/photos', photoRoutes)
+
+const authRoutes = require('./src/routes/authRoutes') // rotas de login
+app.use('/auth', authRoutes)
+
+const activationRoutes = require('./src/routes/activationRoutes') // rotas da ativação
+app.use('/activation', activationRoutes)
+
+// ---------- SERVER ----------
 
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000')
 })
-
-const authRoutes = require('./src/routes/authRoutes')
-
-app.use('/auth', authRoutes)
-
-//separation of domains
-const activationRoutes = require('./src/routes/activationRoutes')
-
-app.use('/activation', activationRoutes)
