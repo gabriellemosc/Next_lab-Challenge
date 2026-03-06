@@ -1,10 +1,20 @@
 import { QRCodeCanvas } from "qrcode.react" // biblioteca para gerar QR Code
 import { useLocation } from "react-router-dom"
+import {useNavigate } from "react-router-dom"
+import { useState } from "react"
+
+import "./Result.css"
+import frame from "../assets/images/frame.png"
+
 
 function Result() {
 
+  const navigate = useNavigate() // cria função de navegação
+
   const location = useLocation() // pega dados enviados pela rota
   const imageUrl = location.state?.imageUrl // URL da imagem no S3
+
+  const [showThanksBox, setShowThanksBox] = useState(false) 
 
   async function downloadImage() { // função async para permitir uso de await
 
@@ -25,26 +35,81 @@ function Result() {
 
   }
 
+  function goToThanks(){
+
+    setShowThanksBox(true) // mostra caixa de agradecimento
+
+    setTimeout(() => {
+
+      navigate("/thanks", { // redireciona após 2s
+        state:{
+          imageUrl: imageUrl
+        }
+      })
+  
+    }, 2000)
+  
+  }
   return (
 
     <div className="resultContainer">
 
-      <h2>Fazer download</h2>
 
-      <div className="qrBox">
+    <div className="resultContent">
 
-        <QRCodeCanvas
-          value={imageUrl} // QR Code aponta para URL da imagem
-          size={180}
+      <div className="photoContainer">
+
+        <img
+          src={imageUrl} // foto salva no S3
+          alt="foto"
+          className="userPhoto"
+        />
+
+        <img
+          src={frame} // moldura
+          alt="frame"
+          className="frameOverlay"
         />
 
       </div>
 
-      <button onClick={downloadImage}>
-        Baixar imagem
-      </button>
+      <div className="qrSection">
+
+        <QRCodeCanvas
+          value={imageUrl} // QR Code aponta para imagem
+          size={180}
+        />
+
+        <button onClick={downloadImage}>
+          Baixar imagem
+        </button>
+
+
+        <button onClick={goToThanks}>
+          Finalizar
+        </button>
+
+      </div>
+
+
+      {showThanksBox && ( 
+        // se showThanksBox for true, mostra a caixa
+
+          <div className="thanksPopup">
+
+            <h2>Obrigado!</h2>
+            <p>Preparando sua tela de download...</p>
+
+          </div>
+
+        )}
+
+
 
     </div>
+
+  </div>
+
 
   )
 

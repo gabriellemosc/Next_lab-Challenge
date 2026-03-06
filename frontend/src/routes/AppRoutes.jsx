@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from "../pages/Login"
 import Upload from "../pages/Upload"
 import Result from "../pages/Result"
+import Thanks from "../pages/Thanks"
+
+
 function AppRoutes() {
 
   return (
@@ -15,6 +18,8 @@ function AppRoutes() {
         <Route path="/upload" element={<Upload />} />
 
         <Route path="/result" element={<Result />} />
+
+        <Route path="/thanks" element={<Thanks />} />
 
       </Routes>
 
