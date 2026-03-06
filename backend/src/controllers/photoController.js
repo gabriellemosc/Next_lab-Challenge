@@ -87,20 +87,47 @@ const deletePhoto = async (req, res) => {
 // Lista fotos do bucket S3
 const getPhotos = async (req, res) => {
   try {
-    const params = {
-      Bucket: process.env.AWS_BUCKET,
-      Prefix: 'photos/' // se quiser filtrar pasta
+    // 📌 Recebe filtros e paginação do frontend
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 10
+    const offset = (page - 1) * limit
+    const { startDate, endDate } = req.query
+
+    // 📌 Monta query dinâmica com filtro por data
+    let query = `SELECT * FROM photos WHERE 1=1`
+    const values = []
+
+    if (startDate) {
+      values.push(startDate)
+      query += ` AND created_at >= $${values.length}`
     }
 
-    const command = new ListObjectsV2Command(params)
-    const s3Data = await s3.send(command) // envia comando
+    if (endDate) {
+      values.push(endDate)
+      query += ` AND created_at <= $${values.length}`
+    }
 
-    const photos = (s3Data.Contents || []).map(item => ({
-      id: item.Key,
-      s3_url: `https://${params.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${item.Key}`
+    // 📌 Contagem total de fotos no BD
+    const totalResult = await pool.query('SELECT COUNT(*) FROM photos')
+    const total = parseInt(totalResult.rows[0].count)
+
+    // 📌 Contagem filtrada
+    const filteredResult = await pool.query(query, values)
+    const filteredTotal = filteredResult.rows.length
+
+    // 📌 Aplica paginação
+    query += ` ORDER BY created_at DESC LIMIT $${values.length + 1} OFFSET $${values.length + 2}`
+    values.push(limit, offset)
+    const pagedResult = await pool.query(query, values)
+
+    // 📌 Mapeia cada foto para URL S3 (pode gerar QRCode no frontend com essa URL)
+    const photos = pagedResult.rows.map(photo => ({
+      id: photo.id,
+      s3_url: photo.s3_url,
+      created_at: photo.created_at
     }))
 
-    res.json({ photos })
+    res.json({ total, filteredTotal, page, limit, photos })
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Erro ao listar fotos' })
