@@ -20,6 +20,10 @@ app.use('/auth', authRoutes)
 const activationRoutes = require('./src/routes/activationRoutes') // rotas da ativação
 app.use('/activation', activationRoutes)
 
+const adminRoutes = require('./src/routes/adminRoutes')
+app.use('/admin', adminRoutes) // registra rotas admin
+
+
 // ---------- SERVER ----------
 
 app.listen(3000, () => {

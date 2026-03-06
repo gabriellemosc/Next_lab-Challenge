@@ -33,7 +33,16 @@ function Login() {
 
       localStorage.setItem("token", data.token) // salva token
 
-      navigate("/upload")
+      if(data.user.role == "ADMIN"){
+
+        navigate("/dashboard")
+
+      }else{
+
+        navigate("/upload")
+        
+      }
+      
 
     } catch (error) {
 
@@ -56,7 +65,6 @@ function Login() {
           placeholder="Email"
           value={email}
           onChange={(e) => {
-            console.log("digitando email:", e.target.value) // log enquanto digita
             setEmail(e.target.value) // atualiza estado
           }}
         />
@@ -66,7 +74,6 @@ function Login() {
           placeholder="Senha"
           value={password}
           onChange={(e) => {
-            console.log("digitando senha") // log enquanto digita
             setPassword(e.target.value) // atualiza estado
           }}
         />

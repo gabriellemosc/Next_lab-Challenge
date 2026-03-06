@@ -34,8 +34,16 @@ const login = async (req, res) => {
       { expiresIn: '8h' }
     )
 
-    return res.json({ token })
+    return res.json({
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role
+      }
+    })
 
+    
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: 'Erro no login' })

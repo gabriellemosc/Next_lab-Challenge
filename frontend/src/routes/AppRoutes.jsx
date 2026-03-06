@@ -3,7 +3,7 @@ import Login from "../pages/Login"
 import Upload from "../pages/Upload"
 import Result from "../pages/Result"
 import Thanks from "../pages/Thanks"
-
+import Dashboard from "../pages/Dashboard"
 
 function AppRoutes() {
 
@@ -16,6 +16,9 @@ function AppRoutes() {
         <Route path="/auth/login" element={<Login />} /> {/* rota login */}
 
         <Route path="/upload" element={<Upload />} />
+
+        <Route path="/dashboard" element={<Dashboard />} />
+
 
         <Route path="/result" element={<Result />} />
 
