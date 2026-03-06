@@ -1,5 +1,16 @@
 const pool = require('../database/connection') // conexão PostgreSQL
 const uploadToS3 = require('../services/s3') // serviço S3
+const { S3Client, ListObjectsV2Command } = require("@aws-sdk/client-s3") // importa list
+require('dotenv').config() 
+
+// instancia S3 (igual ao s3.js)
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY
+  }
+})
 
 // função do endpoint
 const createPhoto = async (req, res) => {
@@ -73,4 +84,31 @@ const deletePhoto = async (req, res) => {
   }
 }
 
-module.exports = { createPhoto, deletePhoto }
+// Lista fotos do bucket S3
+const getPhotos = async (req, res) => {
+  try {
+    const params = {
+      Bucket: process.env.AWS_BUCKET,
+      Prefix: 'photos/' // se quiser filtrar pasta
+    }
+
+    const command = new ListObjectsV2Command(params)
+    const s3Data = await s3.send(command) // envia comando
+
+    const photos = (s3Data.Contents || []).map(item => ({
+      id: item.Key,
+      s3_url: `https://${params.Bucket}.s3.${process.env.AWS_REGION}.amazonaws.com/${item.Key}`
+    }))
+
+    res.json({ photos })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Erro ao listar fotos' })
+  }
+}
+
+
+
+
+
+module.exports = { createPhoto, deletePhoto, getPhotos }

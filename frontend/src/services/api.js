@@ -14,3 +14,31 @@ export async function login(email, password) {
 
   return data // retorna dados recebidos (token)
 }
+
+
+// BUSCAR FOTOS (Dashboard)
+// ============================
+
+export async function getPhotos(page = 1, limit = 10, startDate = "", endDate = "") {
+
+  const token = localStorage.getItem("token") // pega token salvo no navegador
+
+  const query = new URLSearchParams({ // cria query string automaticamente
+    page, // página atual
+    limit, // quantidade por página
+    startDate, // filtro data inicial
+    endDate // filtro data final
+  })
+
+  const response = await fetch(`${API_URL}/photos?${query}`, { // chama endpoint de fotos
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}` // envia JWT para backend validar usuário
+    }
+  })
+
+  const data = await response.json() // converte resposta para JSON
+
+  return data // retorna dados das fotos
+}
