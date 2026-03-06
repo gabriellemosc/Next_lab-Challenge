@@ -4,19 +4,23 @@ import frame from "../assets/images/frame.png" // importa moldura do figma
 import { useNavigate } from "react-router-dom"
 
 function Upload() {
+
   const navigate = useNavigate() // cria função de navegação
   const videoRef = useRef(null) // referencia do video (camera)
   const canvasRef = useRef(null) // referencia do canvas
-  const [count, setCount] = useState(3) // contador
+  const [count, setCount] = useState(null)
   const [photo, setPhoto] = useState(null) // foto capturada
   const [stream, setStream] = useState(null) // stream da camera
   const [started, setStarted] = useState(false) // controla se usuário clicou em iniciar
+  const [capturing, setCapturing] = useState(false) 
 
 
   useEffect(() => {
     if (!started) return // só inicia câmera depois de clicar iniciar
 
     async function startCamera() {
+
+
 
       const media = await navigator.mediaDevices.getUserMedia({
         video: true
@@ -37,9 +41,11 @@ function Upload() {
   useEffect(() => {
 
     if (!started) return // só inicia depois de clicar iniciar
+    if (!capturing) return // só roda se clicou em capturar
     if (photo) return // se já tirou foto, para
+    if (count === null) return // ainda não começou contagem
     if (count <= 0) return // evita números negativos
-  
+
     const timer = setTimeout(() => {
   
       if (count === 1) {
@@ -86,18 +92,35 @@ function Upload() {
 
   }
 
-  function retryPhoto() {
+  async function retryPhoto() {
 
-    setPhoto(null) // limpa foto
-    setCount(3) // reinicia contador
-    window.location.reload() // reinicia camera
+    setPhoto(null) // remove foto capturada
+    setCount(null) // zera contador
+    setCapturing(false) // volta para botão capturar
+  
+    // liga a câmera novamente
+    const media = await navigator.mediaDevices.getUserMedia({
+      video: true
+    })
+  
+    setStream(media) // salva stream
+  
+    if (videoRef.current) {
+      videoRef.current.srcObject = media // conecta câmera ao vídeo
+    }
+  
+  }
 
+  function startCountdown(){
+
+    setCapturing(true) // ativa contagem
+    setCount(3) // inicia contador em 3  
   }
 
   function startExperience() {
 
     setStarted(true) // inicia experiência
-    setCount(3) // inicia contador
+    setCount(null) // inicia contador
   
   }
 
@@ -156,22 +179,36 @@ function Upload() {
   return (
 
     <div className="container">
+{!photo && (
+  <>
+    <video
+      ref={videoRef}
+      autoPlay
+      playsInline
+      className="camera"
+      onLoadedMetadata={() => {
+        console.log("camera pronta")
+      }}
+    />
 
-      {!photo && (
-        <>
-          <h1 className="countdown">{count}</h1>
+    {/* contador só aparece quando iniciou */}
+    {capturing && (
+      <h1 className="countdown">
+        {count}
+      </h1>
+    )}
 
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            className="camera"
-            onLoadedMetadata={() => {
-                console.log("camera pronta") // confirma que o video carregou
-              }}
-          />
-        </>
-      )}
+    {/* botão desaparece quando inicia contagem */}
+    {!capturing && (
+      <button onClick={startCountdown}>
+        Capturar
+      </button>
+    )}
+  </>
+)}
+
+
+
 
       {photo && (
         <>
