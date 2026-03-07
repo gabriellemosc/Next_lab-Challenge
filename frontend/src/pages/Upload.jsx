@@ -31,6 +31,10 @@ function Upload() {
 
       if (videoRef.current) {
         videoRef.current.srcObject = media // conecta stream ao video
+
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current.play()
+        }
       }
 
     }

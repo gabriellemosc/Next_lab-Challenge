@@ -10,6 +10,11 @@ function Thanks(){
 
   const imageUrl = location.state?.imageUrl // url da imagem
 
+  function logout() {
+    localStorage.removeItem("token")
+    navigate("/auth/login")
+  }
+
   function finish(){
 
     navigate("/upload") // volta para tela inicial
@@ -17,8 +22,17 @@ function Thanks(){
   }
 
   return (
+
     <div className="nexLabContainer">
+
+<button className="logoutButton" onClick={logout}>
+      Logout
+    </button>
+
+    
       <img src={logo} alt="NEX .lab" className="nexLabLogo" />
+
+     
       
       <h1 className="thanksTitle">Obrigado!</h1>
       
