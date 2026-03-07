@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "../pages/Login"
 import Upload from "../pages/Upload"
 import Result from "../pages/Result"
@@ -13,7 +13,9 @@ function AppRoutes() {
 
       <Routes>
 
-        <Route path="/auth/login" element={<Login />} /> {/* rota login */}
+      <Route path="/" element={<Navigate to="/auth/login" replace />} />
+      <Route path="/auth/login" element={<Login />} />
+
 
         <Route path="/upload" element={<Upload />} />
 

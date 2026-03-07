@@ -6,7 +6,6 @@ function App() {
   return (
     <AppRoutes /> // renderiza rotas da aplicação
 
-    
   )
 
 }

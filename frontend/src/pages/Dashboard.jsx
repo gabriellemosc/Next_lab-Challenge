@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getPhotos } from "../services/api"
 import { QRCodeCanvas } from "qrcode.react"
+import { useNavigate } from "react-router-dom"
 import './Dashboard.css';
 
 
@@ -31,6 +32,12 @@ function Dashboard(){
         setFilteredTotal(data.filteredTotal)
       }
 
+      const navigate = useNavigate()
+
+      const handleLogout = () => {
+        localStorage.removeItem("token") // ou qualquer dado de login
+        navigate("/auth/login")
+      }
 
   // =============================
   // Carrega métricas
@@ -82,12 +89,23 @@ function Dashboard(){
 
 
   return (
+
+    
     <div className="dashboard-container">
       <header className="dashboard-header">
         <h1>Painel Administrativo</h1>
+
+  
+        
         <div className="header-actions">
           <span className="date-indicator">{new Date().toLocaleDateString('pt-BR')}</span>
         </div>
+
+        
+        <button onClick={handleLogout} className="btn btn-logout">
+        Logout
+      </button>
+
       </header>
 
       {/* ============================= */}
