@@ -20,7 +20,7 @@ function Login() {
     try {
 
 
-      const response = await fetch(`${API_URL}/activation/upload`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST", // método HTTP
         headers: {
           "Content-Type": "application/json" // informa que estamos enviando JSON
