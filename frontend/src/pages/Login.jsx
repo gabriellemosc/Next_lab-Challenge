@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
+import "./Login.css"
+import logo from "../assets/images/Nex_Lab_horizontal.svg"
 function Login() {
 
   const [email, setEmail] = useState("") // estado para armazenar email
@@ -59,41 +60,78 @@ function Login() {
   }
 
   return (
-    <div>
 
-      <h1>Login</h1>
+    
+    <div className="login-container"> {/* container principal da tela */}
 
-      <form onSubmit={handleSubmit}>
+      <div className="login-box"> {/* caixa central onde fica o formulario */}
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value) // atualiza estado
-          }}
-        />
 
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value) // atualiza estado
-          }}
-        />
+      <div className="logo"> {/* area da logo */}
+          <div className="logo-square"></div> {/* quadrado acima da logo */}
+          <img 
+  src={logo} // caminho da imagem importada
+  alt="Nex Lab Logo" // texto alternativo para acessibilidade
+  className="logo-img" // classe para estilizar no css
+/>        </div>
 
-        <button
-          type="submit"
-          onClick={() => console.log("🖱 botão Entrar clicado")} // log do clique
-        >
-          Entrar
-        </button>
 
-      </form>
+        <h1 className="login-title">Login</h1> {/* titulo */}
+
+
+        <form onSubmit={handleSubmit} className="form">
+
+    <div className="input-group"> 
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+            className="login-input"
+          />
+                      <span className="icon">✉</span> {/* icone email */}
+
+
+</div>
+
+<div className="input-group"> {/* grupo do input senha */}
+
+          <input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+            className="login-input"
+          />
+            <span className="icon">🔒</span> {/* icone cadeado */}
+
+</div>
+
+<div className="options"> {/* area lembrar e esqueceu senha */}
+<label>
+              <input type="checkbox"/> {/* checkbox lembrar */}
+              Lembrar
+            </label>
+
+            <a href="#">Esqueci minha senha</a> {/* link recuperar senha */}
+
+          </div>
+
+          <button
+            type="submit"
+            className="login-button"
+          >
+            Entrar
+          </button>
+
+        </form>
+
+      </div>
 
     </div>
+
   )
+
 }
 
 export default Login

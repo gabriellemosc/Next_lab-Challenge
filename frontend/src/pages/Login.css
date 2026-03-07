@@ -1,0 +1,120 @@
+/* remove margens padrao do navegador */
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  /* container principal ocupando a tela inteira */
+  .login-container{
+    height:100vh; /* ocupa toda altura da tela */
+  
+    display:flex; /* ativa flexbox */
+    justify-content:center; /* centraliza horizontalmente */
+    align-items:center; /* centraliza verticalmente */
+  
+    background:linear-gradient(
+    180deg,
+    #e3e3e3,
+    #bdbdbd
+    ); /* gradiente cinza parecido com o layout */
+  }
+  
+  /* caixa central */
+  .login-box{
+    width:400px; /* largura da caixa */
+    text-align:center; /* centraliza textos */
+  }
+  
+  /* area da logo */
+  .logo{
+    margin-bottom:40px; /* espaço abaixo da logo */
+  }
+  
+  /* quadrado da logo */
+  .logo-square{
+    width:50px;
+    height:50px;
+    border:2px solid #555; /* borda cinza */
+    margin:0 auto 10px auto; /* centraliza o quadrado */
+  }
+  
+  /* texto da logo */
+  .logo-text{
+    color:#444;
+    font-size:22px;
+  }
+  
+  /* titulo login */
+  .login-title{
+    font-size:48px;
+    margin-bottom:40px;
+  }
+  
+  /* grupo dos inputs */
+  .input-group{
+    position:relative; /* permite posicionar o icone dentro */
+    margin-bottom:20px;
+  }
+  
+  /* campos de input */
+  .input-group input{
+  
+    width:100%;
+    padding:16px;
+  
+    border:none;
+    outline:none;
+  
+    background:#1e1e1e; /* fundo escuro */
+    color:white;
+  
+    font-size:16px;
+  
+    box-shadow:0 5px 15px rgba(0,0,0,0.2); /* sombra */
+  }
+  
+  /* icones dentro do input */
+  .icon{
+  
+    position:absolute;
+    right:15px;
+    top:50%;
+  
+    transform:translateY(-50%); /* centraliza verticalmente */
+  
+    color:white;
+  }
+  
+  /* linha lembrar e esqueceu senha */
+  .options{
+  
+    display:flex;
+    justify-content:space-between; /* separa os elementos */
+  
+    font-size:14px;
+    color:#555;
+  
+    margin:10px 0 60px 0;
+  }
+  
+  /* botao entrar */
+  .login-button{
+  
+    width:100%;
+    padding:18px;
+  
+    border:none;
+  
+    background:#6b6b6b;
+    color:white;
+  
+    font-size:20px;
+    font-weight:bold;
+  
+    cursor:pointer;
+  }
+  
+  /* efeito hover */
+  .login-button:hover{
+    background:#4f4f4f;
+  }
