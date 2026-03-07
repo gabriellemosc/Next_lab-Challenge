@@ -20,10 +20,11 @@ function Login() {
     try {
 
 
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch(`${API_URL}/activation/upload`, {
         method: "POST", // método HTTP
         headers: {
-          "Content-Type": "application/json" // informa que estamos enviando JSON
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` // << Token enviado aqui
         },
         body: JSON.stringify({
           email: email, // email digitado
