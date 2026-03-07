@@ -4,6 +4,11 @@ require('dotenv').config() // carrega variáveis do .env
 
 const app = express() // cria aplicação
 
+// Adicione isso para testar:
+app.get('/', (req, res) => {
+  res.send('Backend rodando com sucesso!');
+});
+
 // ---------- MIDDLEWARES GLOBAIS ----------
 
 app.use(cors()) // permite requisições vindas do frontend
@@ -23,9 +28,3 @@ app.use('/activation', activationRoutes)
 const adminRoutes = require('./src/routes/adminRoutes')
 app.use('/admin', adminRoutes) // registra rotas admin
 
-
-// ---------- SERVER ----------
-
-app.listen(3000, () => {
-  console.log('Servidor rodando na porta 3000')
-})
