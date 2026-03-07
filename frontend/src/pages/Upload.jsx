@@ -65,36 +65,46 @@ function Upload() {
   
   }, [count, started, photo])
 
-
   function takePhoto() {
-
-    console.log("tirando foto...") // debug
 
     const video = videoRef.current
     const canvas = canvasRef.current
-
-  if (!video.videoWidth || !video.videoHeight) {
-    console.log("video ainda não está pronto")
-    return
-  }
-
-    canvas.width = video.videoWidth // largura real da camera
-    canvas.height = video.videoHeight // altura real da camera
-
-    
-
-    const ctx = canvas.getContext("2d")
-
-    ctx.drawImage(video, 0, 0) // desenha frame atual no canvas
-
-    const imageData = canvas.toDataURL("image/png") // converte imagem para base64
-
-    setPhoto(imageData) // salva foto no estado
-
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop()) // desliga camera
+  
+    if (!video.videoWidth || !video.videoHeight) {
+      console.log("video ainda não está pronto")
+      return
     }
+  
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+  
+    const ctx = canvas.getContext("2d")
+  
+    // 1️⃣ desenha a foto da câmera
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+  
+    // 2️⃣ carrega a moldura
+    const frame = new Image()
+    frame.src = moldura
+    frame.crossOrigin = "anonymous"
 
+  
+    frame.onload = () => {
+  
+      // 3️⃣ desenha a moldura por cima
+      ctx.drawImage(frame, 0, 0, canvas.width, canvas.height)
+  
+      // 4️⃣ gera imagem final
+      const finalImage = canvas.toDataURL("image/png")
+  
+      setPhoto(finalImage)
+  
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop())
+      }
+  
+    }
+  
   }
 
   async function retryPhoto() {
