@@ -1,42 +1,96 @@
-.resultContent{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:60px;
-}
+.resultContainer{
 
-.photoContainer{
-  position:relative;
-}
-
-.userPhoto{
-  width:350px;
-}
-
-.frameOverlay{
-  position:absolute;
-  top:0;
-  left:0;
   width:100%;
-  pointer-events:none;
-}
-
-.qrSection{
+  height:100vh;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:20px;
+  justify-content:center;
+
+  background:#f0f0f0;
+
 }
 
-.thanksPopup{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  background:white;
-  padding:40px;
+/* AREA DA FOTO */
+
+.photoArea{
+
+  position:relative; /* permite posicionar QR dentro */
+
+  width:360px;
+  height:640px;
+
+  overflow:hidden;
   border-radius:10px;
-  box-shadow:0 0 20px rgba(0,0,0,0.3);
-  text-align:center;
-  z-index:999;
+
+}
+
+/* FOTO */
+
+.userPhoto{
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover; /* mantém proporção da foto */
+
+}
+
+/* MOLDURA */
+
+.frameOverlay{
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:100%;
+
+  pointer-events:none; /* permite clicar na foto */
+
+}
+
+/* CARD QR */
+
+.qrCard{
+
+  position:absolute;
+
+  bottom:80px;
+  right:20px;
+
+  background:white;
+
+  padding:15px;
+
+  border-radius:10px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+
+}
+
+/* BOTÃO FINALIZAR */
+
+.finishButton{
+
+  margin-top:20px;
+
+  width:360px;
+  height:60px;
+
+  background:#555;
+  color:white;
+
+  font-size:22px;
+  font-weight:bold;
+
+  border:none;
+  border-radius:6px;
+
 }

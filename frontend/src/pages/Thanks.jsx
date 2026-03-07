@@ -1,5 +1,7 @@
 import { QRCodeCanvas } from "qrcode.react"
 import { useLocation, useNavigate } from "react-router-dom"
+import "./Thanks.css"
+import logo from "../assets/images/Nex_Lab_horizontal.svg"
 
 function Thanks(){
 
@@ -14,27 +16,26 @@ function Thanks(){
 
   }
 
-  return(
-
-    <div className="thanksContainer">
-
-      <h1>Obrigado!</h1>
-
-      <p>Escaneie o QR Code para baixar sua foto</p>
-
-      <QRCodeCanvas
-        value={imageUrl} // QR aponta para foto
-        size={200}
-      />
-
-      <button onClick={finish}>
+  return (
+    <div className="nexLabContainer">
+      <img src={logo} alt="NEX .lab" className="nexLabLogo" />
+      
+      <h1 className="thanksTitle">Obrigado!</h1>
+      
+      
+      <div className="qrCodeWrapper">
+        <QRCodeCanvas
+          value={imageUrl}
+          size={200}
+          className="qrCode"
+        />
+      </div>
+      
+      <button className="finishButton" onClick={finish}>
         Finalizar
       </button>
-
     </div>
-
   )
-
 }
 
 export default Thanks

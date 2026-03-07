@@ -50,66 +50,60 @@ function Result() {
     }, 2000)
   
   }
-  return (
+  return(
 
     <div className="resultContainer">
 
+      <div className="photoArea">
 
-    <div className="resultContent">
-
-      <div className="photoContainer">
-
+        {/* FOTO DE FUNDO */}
         <img
-          src={imageUrl} // foto salva no S3
-          alt="foto"
+          src={imageUrl}
           className="userPhoto"
+          alt="foto"
         />
 
+        {/* MOLDURA */}
         <img
-          src={frame} // moldura
-          alt="frame"
+          src={frame}
           className="frameOverlay"
+          alt="frame"
         />
+
+        {/* CARD QR CODE */}
+        <div className="qrCard">
+
+          <p>Fazer download</p>
+
+          <QRCodeCanvas
+            value={imageUrl} // QR aponta para imagem
+            size={120}
+          />
+
+        </div>
 
       </div>
 
-      <div className="qrSection">
+      {/* BOTÃO FINALIZAR */}
+      <button
+        className="finishButton"
+        onClick={goToThanks}
+      >
+        Finalizar
+      </button>
 
-        <QRCodeCanvas
-          value={imageUrl} // QR Code aponta para imagem
-          size={180}
-        />
+      {showThanksBox && (
 
-        <button onClick={downloadImage}>
-          Baixar imagem
-        </button>
+        <div className="thanksPopup">
 
+          <h2>Obrigado!</h2>
+          <p>Preparando sua tela de download...</p>
 
-        <button onClick={goToThanks}>
-          Finalizar
-        </button>
+        </div>
 
-      </div>
-
-
-      {showThanksBox && ( 
-        // se showThanksBox for true, mostra a caixa
-
-          <div className="thanksPopup">
-
-            <h2>Obrigado!</h2>
-            <p>Preparando sua tela de download...</p>
-
-          </div>
-
-        )}
-
-
+      )}
 
     </div>
-
-  </div>
-
 
   )
 

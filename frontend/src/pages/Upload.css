@@ -1,30 +1,182 @@
+/* container da tela da camera */
 .container{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    height:100vh;
-    background:#111;
-  }
+
+  width:100%;
+  height:100vh;
+
+  position:relative; /* permite posicionar elementos sobre o video */
+
+  background:#ddd;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+}
+ 
+/* video ocupa a tela */
+.camera{
+
+  position:absolute;
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover; /* preenche tela sem distorcer */
+
+}
+
+.cameraLabel{
+
+  position:absolute;
+
+  top:60px;
+
+  color:#888;
+
+  font-size:18px;
+
+}
+
+.countdown{
+
+  position:absolute;
+
+  font-size:120px;
+
+  font-weight:bold;
+
+  color:black;
+
+}
+
+.captureButton{
+
+  position:absolute;
+
+  bottom:60px;
+
+  width:70px;
+  height:70px;
+
+  border-radius:50%;
+
+  border:6px solid #bbb;
+
+  background:transparent;
+
+  cursor:pointer;
+
+}
+
+/* efeito hover no botão */
+.captureButton:hover{
+
+  border-color:#888;
+
+}
+
   
-  .countdown{
-    color:white;
-    font-size:60px;
-    margin-bottom:20px;
-  }
-  
-  .camera{
-    width:400px;
-    height:auto;
-  }
-  
-  .photoContainer{
-    position:relative;
-    width:420px;   /* tamanho exato do frame do figma */
-    height:420px;
-    overflow:hidden; /* impede foto de sair da moldura */
-  }
-  
+.photoContainer{
+
+  position:relative; /* permite posicionar elementos dentro */
+
+  width:350px; /* largura da moldura */
+
+  margin:auto;
+
+}
+
+/* foto capturada */
+.userPhoto{
+
+  width:100%; /* ocupa toda largura */
+
+  display:block;
+
+}
+
+/* cabeçalho */
+.photoHeader{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding:5px 5px 10px 5px;
+
+}
+
+/* logo */
+.photoLogo{
+
+  width:60px;
+
+}
+
+/* texto do topo */
+.photoHeaderText{
+
+  font-size:12px;
+
+  color:#333;
+
+}
+
+
+
+
+
+
+
+/* botões */
+.buttons{
+
+  display:flex;
+
+  gap:10px;
+
+  margin-top:20px;
+
+}
+
+/* botão refazer */
+.retryButton{
+
+  flex:1;
+
+  padding:12px;
+
+  background:#d9d9d9;
+
+  border:1px solid #888;
+
+  cursor:pointer;
+
+  font-weight:bold;
+
+}
+
+/* botão continuar */
+.continueButton{
+
+  flex:1;
+
+  padding:12px;
+
+  background:#6e6e6e;
+
+  color:white;
+
+  border:none;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+}
   .userPhoto{
     position:absolute;
     top:50%;
@@ -35,14 +187,7 @@
        mantendo proporção natural da foto */
   }
   
-  .frameOverlay{
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    pointer-events:none;
-  }
+
 
 
   .preview{
@@ -179,5 +324,95 @@ body{
 .startButton:hover{
 
   background:#505050;
+
+}
+
+
+
+.photoArea{
+
+  position:relative; /* permite camadas */
+
+  width:350px;
+  height:450px;
+
+  background:black;
+
+  overflow:hidden;
+
+}
+
+/* foto capturada */
+.userPhoto{
+
+  position:absolute;
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover; /* mantém proporção */
+
+}
+
+/* moldura */
+.frameOverlay{
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:100%;
+
+  pointer-events:none;
+
+}
+
+
+/* área dos botões */
+.buttons{
+
+  width:350px; /* mesma largura da moldura */
+
+  display:flex;
+
+  margin-top:15px;
+
+}
+
+/* botão refazer */
+.retryButton{
+
+  flex:1;
+
+  padding:12px;
+
+  background:#d9d9d9;
+
+  border:1px solid #888;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+}
+
+/* botão continuar */
+.continueButton{
+
+  flex:1;
+
+  padding:12px;
+
+  background:#6e6e6e;
+
+  color:white;
+
+  border:none;
+
+  font-weight:bold;
+
+  cursor:pointer;
 
 }

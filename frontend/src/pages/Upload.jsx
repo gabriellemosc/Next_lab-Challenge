@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import "./Upload.css"
-import frame from "../assets/images/frame.png" // importa moldura do figma
 import { useNavigate } from "react-router-dom"
 import logo from "../assets/images/Nex_Lab_horizontal.svg"
+import moldura from "../assets/images/moldura.png" // importa a moldura png
 
 function Upload() {
 
@@ -202,6 +202,10 @@ function Upload() {
       }}
     />
 
+<p className="cameraLabel">
+          [câmera aberta]
+        </p> {/* texto pequeno no topo */}
+
     {/* contador só aparece quando iniciou */}
     {capturing && (
       <h1 className="countdown">
@@ -209,49 +213,59 @@ function Upload() {
       </h1>
     )}
 
+
     {/* botão desaparece quando inicia contagem */}
     {!capturing && (
-      <button onClick={startCountdown}>
-        Capturar
-      </button>
-    )}
+          <button
+            className="captureButton"
+            onClick={startCountdown} // inicia contador
+          />
+        )}
   </>
 )}
 
 
 
+{photo && (
+    <div className="photoWrapper">
 
-      {photo && (
-        <>
-           <div className="photoContainer">
+    <div className="photoContainer">
 
-                <img
-                src={photo} // foto capturada da camera
-                alt="foto"
-                className="userPhoto"
-                />
+  
+      {/* área onde fica a foto */}
+      <div className="photoArea">
 
-                <img
-                src={frame} // moldura png
-                alt="frame"
-                className="frameOverlay"
-                />
+        <img
+          src={photo} // foto capturada
+          alt="foto"
+          className="userPhoto"
+        />
 
-                </div>
+        <img
+          src={moldura} // moldura png
+          alt="frame"
+          className="frameOverlay"
+        />
 
-          <div className="buttons">
+      </div>
 
-            <button onClick={retryPhoto}>
-              Refazer
-            </button>
+    </div>
 
-            <button onClick={sendPhoto}>
-              Continuar
-            </button>
+    <div className="buttons">
 
-          </div>
-        </>
-      )}
+      <button onClick={retryPhoto} className="retryButton">
+        Refazer
+      </button>
+
+      <button onClick={sendPhoto} className="continueButton">
+        Continuar
+      </button>
+
+    </div>
+
+    </div>
+
+)}
 
       <canvas ref={canvasRef} style={{ display: "none" }} />
 
