@@ -20,11 +20,10 @@ function Login() {
     try {
 
 
-      const response = await fetch(`${API_URL}/activation/upload`, {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST", // método HTTP
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` // << Token enviado aqui
         },
         body: JSON.stringify({
           email: email, // email digitado
@@ -35,6 +34,7 @@ function Login() {
     
 
       const data = await response.json() // converte resposta para JSON
+      
       if(!response.ok){ // verifica erro do backend
         alert(data.error || "Erro no login")
         return
