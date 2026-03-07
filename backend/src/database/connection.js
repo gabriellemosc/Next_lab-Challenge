@@ -1,30 +1,21 @@
 const { Pool } = require("pg");
 
-// Log para garantir que o código foi executado
-console.log("DEBUG [connection.js]: Iniciando configuração do Pool...");
+console.log("DEBUG [connection.js]: Iniciando com Connection String...");
 
-// Log para verificar se as variáveis estão chegando (sem expor a senha)
-console.log("DEBUG: Variáveis detectadas:");
-console.log("- Host:", process.env.ACTIVACAO_DB_HOST);
-console.log("- User:", process.env.ACTIVACAO_DB_USER);
-console.log("- Database:", process.env.ACTIVACAO_DB_NAME);
-console.log("- Port:", process.env.ACTIVACAO_DB_PORT);
-console.log("- Password presente?", !!process.env.ACTIVACAO_DB_PASSWORD);
+// Verifica se a URL principal existe
+const hasUrl = !!process.env.ACTIVACAO_DATABASE_URL;
+console.log("DEBUG: ACTIVACAO_DATABASE_URL presente?", hasUrl);
 
 const pool = new Pool({
-  host: process.env.ACTIVACAO_DB_HOST,
-  user: process.env.ACTIVACAO_DB_USER,
-  password: process.env.ACTIVACAO_DB_PASSWORD,
-  database: process.env.ACTIVACAO_DB_NAME,
-  port: parseInt(process.env.ACTIVACAO_DB_PORT) || 5432,
+  connectionString: process.env.ACTIVACAO_DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
 
-// Adiciona um listener para erros na pool
+// Listener de erro para capturar problemas na conexão
 pool.on('error', (err) => {
-  console.error('DEBUG [pool.error]: Erro inesperado na pool:', err.message);
+  console.error('DEBUG [pool.error]:', err.message);
 });
 
 module.exports = pool;
