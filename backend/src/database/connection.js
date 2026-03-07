@@ -1,11 +1,15 @@
-const { Pool } = require('pg') // importa Pool
+const { Pool } = require("pg");
 
+// Criamos uma pool única que lê exatamente os nomes que você cadastrou na Vercel
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT
-})
+  host: process.env.ACTIVACAO_DB_HOST,
+  user: process.env.ACTIVACAO_DB_USER,
+  password: process.env.ACTIVACAO_DB_PASSWORD,
+  database: process.env.ACTIVACAO_DB_NAME,
+  port: parseInt(process.env.ACTIVACAO_DB_PORT) || 5432,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
 
-module.exports = pool // EXPORTA corretamente
+module.exports = pool;
