@@ -1,5 +1,5 @@
 // pega URL da API definida nas variáveis de ambiente
-const API_URL = import.meta.env.VITE_API_URL 
+const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') // remove barra final
 
 // ============================
 // LOGIN

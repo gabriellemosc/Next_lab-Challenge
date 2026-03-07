@@ -17,7 +17,7 @@ function Dashboard(){
   const [filteredTotal, setFilteredTotal] = useState(0)
   const [selectedPhoto, setSelectedPhoto] = useState(null) // foto para modal QR
 
-  const API_URL = import.meta.env.VITE_API_URL
+  const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') // remove barra final
 
 
 

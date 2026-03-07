@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import "./Login.css"
 import logo from "../assets/images/Nex_Lab_horizontal.svg"
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') // remove barra final
 
 function Login() {
 
