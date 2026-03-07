@@ -2,6 +2,9 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./Login.css"
 import logo from "../assets/images/Nex_Lab_horizontal.svg"
+
+const API_URL = import.meta.env.VITE_API_URL
+
 function Login() {
 
   const [email, setEmail] = useState("") // estado para armazenar email
@@ -17,7 +20,7 @@ function Login() {
     try {
 
 
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch(`${API_URL}/activation/upload`, {
         method: "POST", // método HTTP
         headers: {
           "Content-Type": "application/json" // informa que estamos enviando JSON

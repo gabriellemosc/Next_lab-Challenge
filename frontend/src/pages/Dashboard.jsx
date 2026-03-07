@@ -17,13 +17,15 @@ function Dashboard(){
   const [filteredTotal, setFilteredTotal] = useState(0)
   const [selectedPhoto, setSelectedPhoto] = useState(null) // foto para modal QR
 
+  const API_URL = import.meta.env.VITE_API_URL
+
 
 
     // Carrega fotos do backend
     const loadPhotos = async () => {
         const token = localStorage.getItem("token")
         const params = new URLSearchParams({ page, limit, startDate, endDate })
-        const res = await fetch(`http://localhost:3000/photos?${params.toString()}`, {
+        const res = await fetch(`${API_URL}/photos?${params.toString()}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         const data = await res.json()
@@ -49,7 +51,7 @@ function Dashboard(){
 
       const token = localStorage.getItem("token")
 
-      const res = await fetch("http://localhost:3000/admin/stats",{
+      const res = await fetch(`${API_URL}/admin/stats{}`,{
         headers:{
           Authorization:`Bearer ${token}`
         }

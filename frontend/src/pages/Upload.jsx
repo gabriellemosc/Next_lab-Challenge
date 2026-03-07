@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"
 import logo from "../assets/images/Nex_Lab_horizontal.svg"
 import moldura from "../assets/images/moldura.png" // importa a moldura png
 
+const API_URL = import.meta.env.VITE_API_URL
+
 function Upload() {
 
   const navigate = useNavigate() // cria função de navegação
@@ -149,7 +151,7 @@ function Upload() {
   
     const token = localStorage.getItem("token")
   
-    const response = await fetch("http://localhost:3000/activation/upload", {
+    const response = await fetch(`${API_URL}/activation/upload`, {
   
       method: "POST",
   
