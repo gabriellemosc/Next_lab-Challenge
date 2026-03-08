@@ -16,24 +16,7 @@ function Result() {
 
   const [showThanksBox, setShowThanksBox] = useState(false) 
 
-  async function downloadImage() { 
 
-    const response = await fetch(imageUrl) 
-    const blob = await response.blob() 
-
-    const url = window.URL.createObjectURL(blob) 
-
-    const link = document.createElement("a") 
-    link.href = url 
-    link.download = "photo.png" 
-
-    document.body.appendChild(link) 
-    link.click() 
-
-    link.remove() 
-    window.URL.revokeObjectURL(url) // free memory
-
-  }
 
   function goToThanks(){
 
