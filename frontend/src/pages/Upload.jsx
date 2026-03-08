@@ -208,7 +208,6 @@ function Upload() {
       playsInline
       className="camera"
       onLoadedMetadata={() => {
-        console.log("camera pronta")
       }}
     />
 
