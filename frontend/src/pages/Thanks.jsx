@@ -5,10 +5,10 @@ import logo from "../assets/images/Nex_Lab_horizontal.svg"
 
 function Thanks(){
 
-  const location = useLocation() // recebe dados da navegação
+  const location = useLocation() // receive data
   const navigate = useNavigate()
 
-  const imageUrl = location.state?.imageUrl // url da imagem
+  const imageUrl = location.state?.imageUrl // url  imagem
 
   function logout() {
     localStorage.removeItem("token")
@@ -17,7 +17,7 @@ function Thanks(){
 
   function finish(){
 
-    navigate("/upload") // volta para tela inicial
+    navigate("/upload") // comebak to login screen
 
   }
 

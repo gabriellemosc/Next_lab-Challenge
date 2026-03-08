@@ -13,7 +13,7 @@ const authorize = require('../middlewares/authorize')
 router.post(
   '/',
   authMiddleware,
-  upload.single('image'), // espera campo "image"
+  upload.single('image'), 
   createPhoto
 )
 
@@ -26,7 +26,7 @@ router.delete(
   deletePhoto
 )
 
-router.get('/', authMiddleware, getPhotos) // rota GET /photos
+router.get('/', authMiddleware, getPhotos) // rote GET /photos
 
 
 module.exports = router

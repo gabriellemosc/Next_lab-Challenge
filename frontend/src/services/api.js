@@ -1,50 +1,49 @@
-// pega URL da API definida nas variáveis de ambiente
 const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') // remove barra final
 
-// ============================
+// 
 // LOGIN
-// ============================
+// 
 
 export async function login(email, password) {
 
-  const response = await fetch(`${API_URL}/auth/login`, { // envia requisição para backend
-    method: "POST", // método HTTP POST para enviar dados
+  const response = await fetch(`${API_URL}/auth/login`, { // send request  backend
+    method: "POST", 
     headers: {
-      "Content-Type": "application/json" // informa que o corpo da requisição é JSON
+      "Content-Type": "application/json" 
     },
-    body: JSON.stringify({ email, password }) // transforma objeto JS em string JSON
+    body: JSON.stringify({ email, password }) 
   })
 
-  const data = await response.json() // converte resposta HTTP para objeto JavaScript
+  const data = await response.json() 
 
-  return data // retorna os dados recebidos do backend (ex: token JWT)
+  return data
 }
 
 
-// ============================
-// BUSCAR FOTOS (Dashboard)
-// ============================
+// 
+// SEARH PHOTO
+// 
 
 export async function getPhotos(page = 1, limit = 10, startDate = "", endDate = "") {
 
-  const token = localStorage.getItem("token") // recupera token salvo no navegador
+  const token = localStorage.getItem("token") // recupera token 
 
-  const query = new URLSearchParams({ // cria automaticamente query string da URL
-    page,       // página atual
-    limit,      // quantidade de fotos por página
-    startDate,  // filtro de data inicial
-    endDate     // filtro de data final
+  const query = new URLSearchParams({ //  query string da URL
+    page,       
+    limit,      
+    startDate,  
+    endDate     
   })
 
-  const response = await fetch(`${API_URL}/photos?${query}`, { // chama endpoint de fotos no backend
-    method: "GET", // método HTTP GET para buscar dados
+  const response = await fetch(`${API_URL}/photos?${query}`, { 
+    method: "GET", 
     headers: {
       "Content-Type": "application/json", 
-      Authorization: `Bearer ${token}` // envia token JWT para autenticação no backend
+      Authorization: `Bearer ${token}` 
     }
   })
 
-  const data = await response.json() // converte resposta para objeto JavaScript
+  const data = await response.json() 
 
-  return data // retorna lista de fotos e dados de paginação
+  return data 
 }

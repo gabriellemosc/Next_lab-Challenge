@@ -2,9 +2,7 @@ const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3") // client S
 const { v4: uuidv4 } = require('uuid') 
 
 
-// Log para debug (apenas para confirmar se carregou as variáveis)
-console.log("DEBUG S3: Region:", process.env.ACTIVACAO_AWS_REGION);
-console.log("DEBUG S3: Bucket:", process.env.ACTIVACAO_AWS_BUCKET);
+
 
 
 // s3 credentials
@@ -28,10 +26,9 @@ const uploadToS3 = async (file) => {
 
   try {
     await s3.send(command);
-    // URL correta para us-east-1
     return `https://${process.env.ACTIVACAO_AWS_BUCKET}.s3.amazonaws.com/${fileKey}`;
   } catch (err) {
-    console.error("ERRO NO SDK S3:", err);
+    console.error("ERROR SDK S3:", err);
     throw err;
   }
 };

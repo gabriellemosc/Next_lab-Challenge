@@ -10,9 +10,9 @@ const { getAdminPhotos, getAdminStats } = require('../controllers/adminControlle
 // GET /admin/photos
 router.get(
   '/photos',
-  authMiddleware, // verifica token JWT
-  authorize(['ADMIN']), // apenas admin pode acessar
-  getAdminPhotos // retorna fotos com paginação
+  authMiddleware, 
+  authorize(['ADMIN']), 
+  getAdminPhotos 
 )
 
 
@@ -21,7 +21,7 @@ router.get(
   '/stats',
   authMiddleware,
   authorize(['ADMIN']),
-  getAdminStats // retorna números macros do dashboard
+  getAdminStats 
 )
 
 module.exports = router

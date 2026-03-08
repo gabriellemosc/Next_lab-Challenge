@@ -1,20 +1,17 @@
-import { Navigate } from "react-router-dom" // componente que redireciona rota
+import { Navigate } from "react-router-dom" 
 
 export default function ProtectedRoute({ children, role }) {
 
-  // pega o usuário salvo no localStorage
+  // take user localStorage
   const user = JSON.parse(localStorage.getItem("user"))
 
-  // se não existir usuário logado
   if (!user) {
-    return <Navigate to="/login" /> // manda para tela de login
+    return <Navigate to="/login" /> // send to login
   }
 
-  // se a rota exige uma role e o usuário não possui
   if (role && user.role !== role) {
-    return <Navigate to="/" /> // bloqueia acesso e manda para home
+    return <Navigate to="/" /> 
   }
 
-  // se passou pelas verificações permite acessar a página
   return children
 }

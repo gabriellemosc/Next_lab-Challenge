@@ -1,11 +1,12 @@
 const { Pool } = require("pg");
 
+//MANAGE CONNECTION WITH BD
+
 const pool = new Pool({
   connectionString: process.env.ACTIVACAO_DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   },
-  // O pooler do Supabase gerencia conexões, então não precisamos de um limite muito alto aqui
   max: 10 
 });
 

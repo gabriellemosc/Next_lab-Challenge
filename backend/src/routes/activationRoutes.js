@@ -8,11 +8,11 @@ const upload = require('../middlewares/upload') //multer
 
 const { uploadActivation } = require('../controllers/activationController')
 
-// rota principal do fluxo de ativação
+// ACTIVATE FLOW
 router.post(
   '/upload',
-  authMiddleware, // valida token
-  authorize(['PROMOTOR']), // apenas promotor pode acessar fluxo
+  authMiddleware, // VLIDATE TOKEN
+  authorize(['PROMOTOR']), // ONLY PROMOTOR CAN ACESS TOKEN
   upload.single('image'),
   uploadActivation
 )

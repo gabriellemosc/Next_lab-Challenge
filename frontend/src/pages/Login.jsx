@@ -3,47 +3,46 @@ import { useNavigate } from "react-router-dom"
 import "./Login.css"
 import logo from "../assets/images/Nex_Lab_horizontal.svg"
 
-const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') // remove barra final
+const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') // REMOVE FINAL VAR
 
 function Login() {
 
-  const [email, setEmail] = useState("") // estado para armazenar email
-  const [password, setPassword] = useState("") // estado para senha
+  const [email, setEmail] = useState("") // STATE TO STORAGE email
+  const [password, setPassword] = useState("") // STORAGE PASSWORD 
   const navigate = useNavigate()
 
   async function handleSubmit(e) {
 
 
-    e.preventDefault() // impede reload da página
+    e.preventDefault() 
 
 
     try {
 
 
       const response = await fetch(`${API_URL}/auth/login`, {
-        method: "POST", // método HTTP
+        method: "POST", // HTTP
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email, // email digitado
-          password: password // senha digitada
+          email: email, 
+          password: password 
         })
       })
 
     
 
-      const data = await response.json() // converte resposta para JSON
+      const data = await response.json() 
 
-      if(!response.ok){ // verifica erro do backend
+      if(!response.ok){ 
         alert(data.error || "Erro no login")
         return
       }
   
 
-      localStorage.setItem("token", data.token) // salva token
+      localStorage.setItem("token", data.token) 
 
-          // ✅ salvar dados do usuário para ProtectedRoutes
     localStorage.setItem("user", JSON.stringify(data.user));
 
       if(data.user?.role == "ADMIN"){
@@ -69,21 +68,21 @@ function Login() {
   return (
 
     
-    <div className="login-container"> {/* container principal da tela */}
+    <div className="login-container"> 
 
-      <div className="login-box"> {/* caixa central onde fica o formulario */}
+      <div className="login-box"> 
 
 
-      <div className="logo"> {/* area da logo */}
-          <div className="logo-square"></div> {/* quadrado acima da logo */}
+      <div className="logo"> 
+          <div className="logo-square"></div> 
           <img 
-  src={logo} // caminho da imagem importada
-  alt="Nex Lab Logo" // texto alternativo para acessibilidade
-  className="logo-img" // classe para estilizar no css
+  src={logo} 
+  alt="Nex Lab Logo" 
+  className="logo-img" 
 />        </div>
 
 
-        <h1 className="login-title">Login</h1> {/* titulo */}
+        <h1 className="login-title">Login</h1> 
 
 
         <form onSubmit={handleSubmit} className="form">
@@ -96,12 +95,12 @@ function Login() {
             onChange={(e)=>setEmail(e.target.value)}
             className="login-input"
           />
-                      <span className="icon">✉</span> {/* icone email */}
+                      <span className="icon">✉</span> 
 
 
 </div>
 
-<div className="input-group"> {/* grupo do input senha */}
+<div className="input-group"> 
 
           <input
             type="password"
@@ -110,17 +109,17 @@ function Login() {
             onChange={(e)=>setPassword(e.target.value)}
             className="login-input"
           />
-            <span className="icon">🔒</span> {/* icone cadeado */}
+            <span className="icon">🔒</span> 
 
 </div>
 
-<div className="options"> {/* area lembrar e esqueceu senha */}
+<div className="options"> 
 <label>
-              <input type="checkbox"/> {/* checkbox lembrar */}
+              <input type="checkbox"/> 
               Lembrar
             </label>
 
-            <a href="#">Esqueci minha senha</a> {/* link recuperar senha */}
+            <a href="#">Esqueci minha senha</a> 
 
           </div>
 

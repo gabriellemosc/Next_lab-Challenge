@@ -6,7 +6,7 @@
   
   body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #ffffff; /* fundo branco */
+    background-color: #ffffff; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,7 +28,7 @@
   .nexLab {
     font-size: 20px;
     font-weight: normal;
-    color: #cccccc; /* cinza claro como na imagem */
+    color: #cccccc; 
     letter-spacing: 1px;
     margin-bottom: 10px;
     align-self: flex-start;
@@ -63,7 +63,7 @@
   }
   
   .finishButton {
-    background-color: #222222; /* preto/cinza escuro */
+    background-color: #222222; 
     color: white;
     border: none;
     padding: 15px 40px;
@@ -81,7 +81,6 @@
     background-color: #000000;
   }
   
-  /* Ajustes responsivos */
   @media (max-width: 480px) {
     .nexLabContainer {
       padding: 30px 20px;
@@ -94,10 +93,10 @@
 
 
   .nexLabLogo {
-    height: 90px; /* ajuste conforme necessário */
+    height: 90px;
     width: auto;
     margin-bottom: 10px;
-    align-self: center; /* mudado de flex-start para center */
+    align-self: center; 
 
   }
 

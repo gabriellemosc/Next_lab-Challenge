@@ -8,18 +8,18 @@ const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') // remove barra 
 
 function Upload() {
 
-  const navigate = useNavigate() // cria função de navegação
-  const videoRef = useRef(null) // referencia do video (camera)
-  const canvasRef = useRef(null) // referencia do canvas
+  const navigate = useNavigate() 
+  const videoRef = useRef(null) //  video (camera)
+  const canvasRef = useRef(null) 
   const [count, setCount] = useState(null)
-  const [photo, setPhoto] = useState(null) // foto capturada
-  const [stream, setStream] = useState(null) // stream da camera
-  const [started, setStarted] = useState(false) // controla se usuário clicou em iniciar
+  const [photo, setPhoto] = useState(null) // foto taken
+  const [stream, setStream] = useState(null) // stream  camera
+  const [started, setStarted] = useState(false) // if user clicked
   const [capturing, setCapturing] = useState(false) 
 
 
   useEffect(() => {
-    if (!started) return // só inicia câmera depois de clicar iniciar
+    if (!started) return 
 
     async function startCamera() {
 
@@ -32,7 +32,7 @@ function Upload() {
       setStream(media) // salva stream
 
       if (videoRef.current) {
-        videoRef.current.srcObject = media // conecta stream ao video
+        videoRef.current.srcObject = media 
 
         videoRef.current.onloadedmetadata = () => {
           videoRef.current.play()
@@ -47,23 +47,23 @@ function Upload() {
 
   useEffect(() => {
 
-    if (!started) return // só inicia depois de clicar iniciar
-    if (!capturing) return // só roda se clicou em capturar
-    if (photo) return // se já tirou foto, para
-    if (count === null) return // ainda não começou contagem
-    if (count <= 0) return // evita números negativos
+    if (!started) return 
+    if (!capturing) return 
+    if (photo) return 
+    if (count === null) return 
+    if (count <= 0) return 
 
     const timer = setTimeout(() => {
   
       if (count === 1) {
-        takePhoto() // quando estiver em 1, dispara a foto
+        takePhoto()
       }
   
-      setCount(prev => prev - 1) // diminui contador
+      setCount(prev => prev - 1) 
   
     }, 1000)
   
-    return () => clearTimeout(timer) // limpa timeout
+    return () => clearTimeout(timer) // clean timeout
   
   }, [count, started, photo])
 
@@ -73,7 +73,6 @@ function Upload() {
     const canvas = canvasRef.current
   
     if (!video.videoWidth || !video.videoHeight) {
-      console.log("video ainda não está pronto")
       return
     }
   
@@ -82,10 +81,8 @@ function Upload() {
   
     const ctx = canvas.getContext("2d")
   
-    // 1️⃣ desenha a foto da câmera
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
   
-    // 2️⃣ carrega a moldura
     const frame = new Image()
     frame.src = moldura
     frame.crossOrigin = "anonymous"
@@ -93,10 +90,9 @@ function Upload() {
   
     frame.onload = () => {
   
-      // 3️⃣ desenha a moldura por cima
       ctx.drawImage(frame, 0, 0, canvas.width, canvas.height)
   
-      // 4️⃣ gera imagem final
+      // imagem final
       const finalImage = canvas.toDataURL("image/png")
   
       setPhoto(finalImage)
@@ -115,62 +111,59 @@ function Upload() {
     setCount(null) // zera contador
     setCapturing(false) // volta para botão capturar
   
-    // liga a câmera novamente
     const media = await navigator.mediaDevices.getUserMedia({
       video: true
     })
   
-    setStream(media) // salva stream
+    setStream(media) // salve stream
   
     if (videoRef.current) {
-      videoRef.current.srcObject = media // conecta câmera ao vídeo
+      videoRef.current.srcObject = media // conect camera to vídeo
     }
   
   }
 
   function startCountdown(){
 
-    setCapturing(true) // ativa contagem
-    setCount(3) // inicia contador em 3  
+    setCapturing(true) 
+    setCount(3) 
   }
 
   function startExperience() {
 
-    setStarted(true) // inicia experiência
-    setCount(null) // inicia contador
+    setStarted(true) 
+    setCount(null) 
   
   }
 
   async function sendPhoto() {
 
-    const blob = await fetch(photo).then(r => r.blob()) // converte base64 para blob
+    const blob = await fetch(photo).then(r => r.blob()) // convert base64 para blob
   
     const formData = new FormData()
   
-    formData.append("image", blob, "photo.png") // adiciona imagem no form
+    formData.append("image", blob, "photo.png") 
   
     const token = localStorage.getItem("token")
-    console.log("Token enviado:", token); // <-- VEJA O QUE APARECE NO CONSOLE DO NAVEGADOR
-    
+
     const response = await fetch(`${API_URL}/activation/upload`, {
   
       method: "POST",
   
       headers: {
-        Authorization: `Bearer ${token}` // envia token
+        Authorization: `Bearer ${token}` 
       },
   
       body: formData
   
     })
   
-    const data = await response.json() // aqui criamos data
+    const data = await response.json() 
   
-    console.log("Resposta backend:", data)
   
     navigate("/result", {
       state: {
-        imageUrl: data.s3_url // agora data existe
+        imageUrl: data.s3_url 
       }
     })
   
@@ -180,21 +173,21 @@ function Upload() {
 
     return (
 
-      <div className="startScreen"> {/* container principal da tela */}
+      <div className="startScreen"> {/* container principal */}
 
       <img 
-        src={logo} // logo svg importada
+        src={logo} // logo svg 
         alt="NexLab"
         className="logo"
       />
   
       <h1 className="title">
         Photo <br/> Opp
-      </h1> {/* quebra de linha para ficar igual ao layout */}
+      </h1> {/* breakline to layout */}
   
       <button 
         className="startButton"
-        onClick={startExperience} // função que inicia experiência
+        onClick={startExperience} 
       >
         Iniciar
       </button>
@@ -221,9 +214,9 @@ function Upload() {
 
 <p className="cameraLabel">
           [câmera aberta]
-        </p> {/* texto pequeno no topo */}
+        </p> {/* small text */}
 
-    {/* contador só aparece quando iniciou */}
+    {/* counter */}
     {capturing && (
       <h1 className="countdown">
         {count}
@@ -231,11 +224,11 @@ function Upload() {
     )}
 
 
-    {/* botão desaparece quando inicia contagem */}
+    {/* erase button */}
     {!capturing && (
           <button
             className="captureButton"
-            onClick={startCountdown} // inicia contador
+            onClick={startCountdown} //  counter
           />
         )}
   </>
@@ -249,11 +242,11 @@ function Upload() {
     <div className="photoContainer">
 
   
-      {/* área onde fica a foto */}
+      {/* photo AREA  */}
       <div className="photoArea">
 
         <img
-          src={photo} // foto capturada
+          src={photo} // photo taken 
           alt="foto"
           className="userPhoto"
         />

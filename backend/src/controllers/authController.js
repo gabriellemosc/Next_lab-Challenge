@@ -2,6 +2,8 @@ const pool = require('../database/connection')
 const bcrypt = require('bcrypt') 
 const jwt = require('jsonwebtoken') 
 
+//RECEIVE EMAIL, PASSWORD AND TOKEN 
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body 
@@ -10,7 +12,7 @@ const login = async (req, res) => {
     const result = await pool.query(query, [email])
 
     if (result.rows.length === 0) {
-      return res.status(401).json({ error: 'Credenciais inválidas' })
+      return res.status(401).json({ error: 'Invalid Credentials' })
     }
 
     const user = result.rows[0]
@@ -18,7 +20,7 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password)
 
     if (!isMatch) {
-      return res.status(401).json({ error: 'Credenciais inválidas' })
+      return res.status(401).json({ error: 'Invalid Credentials' })
     }
 
     const token = jwt.sign(
@@ -40,12 +42,11 @@ const login = async (req, res) => {
     })
 
   } catch (error) {
-    console.error("ERRO DETALHADO:", error)
     return res.status(500).json({ 
-      error: 'Erro no login', 
+      error: 'Login Error', 
       details: error.message 
     })
-  } // <--- Esta chave fecha o bloco try/catch
-} // <--- Esta chave fecha a função login
+  } 
+} 
 
 module.exports = { login }

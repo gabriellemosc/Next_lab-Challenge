@@ -1,41 +1,36 @@
-/* remove margens padrao do navegador */
 body{
     margin:0;
     font-family: Arial, Helvetica, sans-serif;
   }
   
-  /* container principal ocupando a tela inteira */
   .login-container{
-    height:100vh; /* ocupa toda altura da tela */
+    height:100vh; 
   
-    display:flex; /* ativa flexbox */
-    justify-content:center; /* centraliza horizontalmente */
-    align-items:center; /* centraliza verticalmente */
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
   
     background:linear-gradient(
     180deg,
     #e3e3e3,
     #bdbdbd
-    ); /* gradiente cinza parecido com o layout */
+    );
   }
   
-  /* caixa central */
   .login-box{
-    width:400px; /* largura da caixa */
-    text-align:center; /* centraliza textos */
+    width:400px; 
+    text-align:center;
   }
   
-  /* area da logo */
   .logo{
-    margin-bottom:40px; /* espaço abaixo da logo */
+    margin-bottom:40px; 
   }
   
-  /* quadrado da logo */
   .logo-square{
     width:50px;
     height:50px;
-    border:2px solid #555; /* borda cinza */
-    margin:0 auto 10px auto; /* centraliza o quadrado */
+    border:2px solid #555; 
+    margin:0 auto 10px auto; 
   }
   
   /* texto da logo */
@@ -50,13 +45,11 @@ body{
     margin-bottom:40px;
   }
   
-  /* grupo dos inputs */
   .input-group{
-    position:relative; /* permite posicionar o icone dentro */
+    position:relative; 
     margin-bottom:20px;
   }
   
-  /* campos de input */
   .input-group input{
   
     width:100%;
@@ -65,39 +58,35 @@ body{
     border:none;
     outline:none;
   
-    background:#1e1e1e; /* fundo escuro */
+    background:#1e1e1e; 
     color:white;
   
     font-size:16px;
   
-    box-shadow:0 5px 15px rgba(0,0,0,0.2); /* sombra */
+    box-shadow:0 5px 15px rgba(0,0,0,0.2); 
   }
   
-  /* icones dentro do input */
   .icon{
   
     position:absolute;
     right:15px;
     top:50%;
   
-    transform:translateY(-50%); /* centraliza verticalmente */
+    transform:translateY(-50%);
   
     color:white;
   }
   
-  /* linha lembrar e esqueceu senha */
   .options{
   
     display:flex;
-    justify-content:space-between; /* separa os elementos */
-  
+    justify-content:space-between; 
     font-size:14px;
     color:#555;
   
     margin:10px 0 60px 0;
   }
   
-  /* botao entrar */
   .login-button{
   
     width:100%;
@@ -114,7 +103,6 @@ body{
     cursor:pointer;
   }
   
-  /* efeito hover */
   .login-button:hover{
     background:#4f4f4f;
   }

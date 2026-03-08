@@ -7,17 +7,17 @@ import './Dashboard.css';
 
 function Dashboard(){
 
-  const [stats,setStats] = useState(null) // guarda métricas
-  const [photos,setPhotos] = useState([]) // guarda fotos
-  const [page,setPage] = useState(1) // página atual
+  const [stats,setStats] = useState(null) // METRICS
+  const [photos,setPhotos] = useState([]) 
+  const [page,setPage] = useState(1) // CURRENT PAGE
   const [limit,setLimit] = useState(10) // fotos por página
-  const [startDate,setStartDate] = useState("") // filtro inicial
-  const [endDate,setEndDate] = useState("") // filtro final
+  const [startDate,setStartDate] = useState("") 
+  const [endDate,setEndDate] = useState("") 
   const [total, setTotal] = useState(0)
   const [filteredTotal, setFilteredTotal] = useState(0)
-  const [selectedPhoto, setSelectedPhoto] = useState(null) // foto para modal QR
+  const [selectedPhoto, setSelectedPhoto] = useState(null) 
 
-  const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') // remove barra final
+  const API_URL = import.meta.env.VITE_API_URL.replace(/\/$/, '') 
 
 
 
@@ -37,13 +37,11 @@ function Dashboard(){
       const navigate = useNavigate()
 
       const handleLogout = () => {
-        localStorage.removeItem("token") // ou qualquer dado de login
+        localStorage.removeItem("token") 
         navigate("/auth/login")
       }
 
-  // =============================
-  // Carrega métricas
-  // =============================
+  
 
   useEffect(()=>{
 
@@ -68,9 +66,7 @@ function Dashboard(){
   },[])
 
 
-  // =============================
-  // Carrega fotos com paginação
-  // =============================
+
 
   useEffect(()=>{
 
@@ -110,9 +106,6 @@ function Dashboard(){
 
       </header>
 
-      {/* ============================= */}
-      {/* MÉTRICAS */}
-      {/* ============================= */}
 
       <div className="metrics-grid">
         <div className="metric-card">
@@ -132,9 +125,6 @@ function Dashboard(){
         </div>
       </div>
 
-      {/* ============================= */}
-      {/* FILTROS */}
-      {/* ============================= */}
 
       <div className="filters-section">
         <h3>Filtros</h3>
@@ -175,10 +165,7 @@ function Dashboard(){
         </div>
       </div>
 
-      {/* ============================= */}
-      {/* CONTROLES DE PÁGINA */}
-      {/* ============================= */}
-
+   
       <div className="pagination-controls">
         <div className="per-page-selector">
           <label>Fotos por página:</label>
@@ -194,10 +181,7 @@ function Dashboard(){
         </div>
       </div>
 
-      {/* ============================= */}
-      {/* LISTA DE FOTOS */}
-      {/* ============================= */}
-
+      
       <div className="photos-grid">
         {photos.map(photo => (
           <div key={photo.id} className="photo-card" onClick={() => setSelectedPhoto(photo)}>
@@ -215,10 +199,7 @@ function Dashboard(){
         ))}
       </div>
 
-      {/* ============================= */}
-      {/* CONTROLE DE PAGINAÇÃO */}
-      {/* ============================= */}
-
+      
       <div className="pagination">
         <button 
           onClick={() => setPage(page - 1)} 
@@ -238,10 +219,7 @@ function Dashboard(){
         </button>
       </div>
 
-      {/* ============================= */}
-      {/* MODAL QR CODE */}
-      {/* ============================= */}
-
+     
       {selectedPhoto && (
         <div className="modal-overlay" onClick={() => setSelectedPhoto(null)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
